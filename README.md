@@ -1,7 +1,7 @@
 # clarifai-android-starter
 This is a simple project to get you started using the Clarifai API from Android. It uses the [Clarifai Java Client](https://github.com/Clarifai/clarifai-java) to perform image recognition on photos stored on your device. Full Clarifai API documentation can be found at [developer.clarifai.com](http://developer.clarifai.com/).
 
-<img src="https://i.imgur.com/hcyCM3q.jpg" width="200">
+<img src="https://i.imgur.com/56EUw5D.jpg" width="200">
 
 ## Building and Running
 Clone this repo. Then, in Android Studio, go to "File > Open..." and select this directory. Press the "Play" button in the toolbar to build and run.
