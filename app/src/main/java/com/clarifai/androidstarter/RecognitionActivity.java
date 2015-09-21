@@ -114,13 +114,17 @@ public class RecognitionActivity extends Activity {
       // network is slow and  does not significantly improve recognition performance.
       Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 320,
           320 * bitmap.getHeight() / bitmap.getWidth(), true);
+
+      // Compress the image as a JPEG.
       ByteArrayOutputStream out = new ByteArrayOutputStream();
       scaled.compress(Bitmap.CompressFormat.JPEG, 90, out);
+
+      // Send the JPEG to Clarifai and return the result.
       return client.recognize(new RecognitionRequest(new byte[][] { out.toByteArray() })).get(0);
     } catch (ClarifaiException e) {
       Log.e(TAG, "Clarifai error", e);
+      return null;
     }
-    return null;
   }
 
   /** Updates the UI by displaying tags for the given result. */
