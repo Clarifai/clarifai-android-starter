@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:gravity="center"
-              tools:context=".RecognitionActivityFragment">
+              tools:context=".RecognitionActivity">
 
   <ImageView
       android:id="@+id/image_view"
