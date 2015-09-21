@@ -91,10 +91,10 @@ public class RecognitionActivity extends Activity {
       // practices from http://developer.android.com/training/displaying-bitmaps/load-bitmap.html
       BitmapFactory.Options opts = new BitmapFactory.Options();
       opts.inJustDecodeBounds = true;
-      Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+      BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, opts);
       int sampleSize = 1;
-      while (bitmap.getWidth() / (2 * sampleSize) > imageView.getWidth() ||
-             bitmap.getHeight() / (2 * sampleSize) > imageView.getHeight()) {
+      while (opts.outWidth / (2 * sampleSize) > imageView.getWidth() ||
+             opts.outHeight / (2 * sampleSize) > imageView.getHeight()) {
         sampleSize *= 2;
       }
 
@@ -118,9 +118,10 @@ public class RecognitionActivity extends Activity {
       // Compress the image as a JPEG.
       ByteArrayOutputStream out = new ByteArrayOutputStream();
       scaled.compress(Bitmap.CompressFormat.JPEG, 90, out);
+      byte[] jpeg = out.toByteArray();
 
       // Send the JPEG to Clarifai and return the result.
-      return client.recognize(new RecognitionRequest(new byte[][] { out.toByteArray() })).get(0);
+      return client.recognize(new RecognitionRequest(new byte[][] { jpeg })).get(0);
     } catch (ClarifaiException e) {
       Log.e(TAG, "Clarifai error", e);
       return null;
