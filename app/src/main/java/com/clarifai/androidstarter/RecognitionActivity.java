@@ -93,8 +93,8 @@ public class RecognitionActivity extends Activity {
       opts.inJustDecodeBounds = true;
       BitmapFactory.decodeStream(getContentResolver().openInputStream(uri), null, opts);
       int sampleSize = 1;
-      while (opts.outWidth / (2 * sampleSize) > imageView.getWidth() ||
-             opts.outHeight / (2 * sampleSize) > imageView.getHeight()) {
+      while (opts.outWidth / (2 * sampleSize) >= imageView.getWidth() &&
+             opts.outHeight / (2 * sampleSize) >= imageView.getHeight()) {
         sampleSize *= 2;
       }
 
