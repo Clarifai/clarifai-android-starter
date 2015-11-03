@@ -17,6 +17,6 @@ Alternately, you can build and install from the command-line with:
 ## Next steps
 Feel free to use this project as a base for building your app. You can also use the ClarifaiClient from other projects by adding the following dependency to your [app/build.gradle](https://github.com/Clarifai/clarifai-android-starter/blob/master/app/build.gradle) file:
 
-```compile 'com.clarifai:clarifai-api-java:1.1.0'```
+```compile 'com.clarifai:clarifai-api-java:1.2.0'```
 
 More information on the client and usage examples can be found [here](https://github.com/Clarifai/clarifai-java).
