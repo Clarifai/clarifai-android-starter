@@ -31,14 +31,10 @@ import static android.provider.MediaStore.Images.Media;
 public class RecognitionActivity extends Activity {
   private static final String TAG = RecognitionActivity.class.getSimpleName();
 
-  // IMPORTANT NOTE: you should replace these keys with your own App ID and secret.
-  // These can be obtained at https://developer.clarifai.com/applications
-  private static final String APP_ID = "vM05qo55uhZard2dL4BixmMm4WsHIl6CsGCTgS_7";
-  private static final String APP_SECRET = "rx4oPPiXiCWNRVcoJ0huLz02cKiQUZtq5JPVrhjM";
-
   private static final int CODE_PICK = 1;
 
-  private final ClarifaiClient client = new ClarifaiClient(APP_ID, APP_SECRET);
+  private final ClarifaiClient client = new ClarifaiClient(Credentials.CLIENT_ID,
+      Credentials.CLIENT_SECRET);
   private Button selectButton;
   private ImageView imageView;
   private TextView textView;
