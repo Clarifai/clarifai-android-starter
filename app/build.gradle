@@ -1,26 +1,36 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
+apply plugin: "android-apt"
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.1"
-
+  compileSdkVersion versions.android.compile
+  buildToolsVersion versions.android.buildTools
   defaultConfig {
-    applicationId "com.clarifai.clarifaiandroidstarter"
-    minSdkVersion 10
-    targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-    }
+    applicationId "com.clarifai.android.starter.api.v2"
+    minSdkVersion versions.android.min
+    targetSdkVersion versions.android.target
+    versionCode versions.app.code
+    versionName versions.app.name
   }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:23.0.1'
-  compile 'com.clarifai:clarifai-api-java:1.2.0'
+  compile(
+      [
+          "appcompat-v7",
+          "recyclerview-v7",
+          "design",
+          "cardview-v7",
+      ].collect { "com.android.support:$it:$versions.android.compatV7" },
+      deps.clarifai,
+      deps.butterknife,
+      deps.rxJava,
+      deps.timber,
+  )
+  compile(
+      deps.materialDrawer
+  ) { transitive = true }
+
+  apt(
+      deps.butterknifeCompiler,
+  )
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.clarifai.android.starter.api.v2.RecognizeView
+    android:id="@+id/recognize_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    />
