@@ -19,6 +19,11 @@ android:
   - extra-google-m2repository
   - sys-img-armeabi-v7a-$ANDROID_TARGET
 
+licenses:
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
+
 before_script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-audio -no-window -no-skin &
