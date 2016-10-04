@@ -11,6 +11,7 @@ android {
     versionCode versions.app.code
     versionName versions.app.name
   }
+  lintOptions { lintConfig rootProject.file('gradle/lint.xml') }
 }
 
 dependencies {

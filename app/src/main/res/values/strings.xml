@@ -2,4 +2,6 @@
     <string name="app_name">Clarifai v2 API Starter</string>
     <string name="error_while_contacting_api">Error while contacting Clarifai API</string>
     <string name="upload_image_hint">Click the button in the bottom-right corner to upload an image!</string>
+    <string name="clarifai_id">TODO</string>
+    <string name="clarifai_secret">TODO</string>
 </resources>
