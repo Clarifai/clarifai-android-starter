@@ -1,7 +1,7 @@
 package com.clarifai.android.starter.api.v2;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 public interface HandlesPickImageIntent {
-  void onImagePicked(@Nullable byte[] imageBytes);
+  void onImagePicked(@NonNull byte[] imageBytes);
 }

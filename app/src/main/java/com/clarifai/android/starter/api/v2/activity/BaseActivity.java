@@ -110,10 +110,20 @@ public abstract class BaseActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    final byte[] imageBytes = retrieveSelectedImage(requestCode, resultCode, data);
-    final List<HandlesPickImageIntent> imageHandlers = ClarifaiUtil.childrenOfType(root, HandlesPickImageIntent.class);
-    for (HandlesPickImageIntent imageHandler : imageHandlers) {
-      imageHandler.onImagePicked(imageBytes);
+    if (resultCode != RESULT_OK) {
+      return;
+    }
+    switch (requestCode) {
+      case PICK_IMAGE:
+        final byte[] imageBytes = retrieveSelectedImage(data);
+        if (imageBytes != null) {
+          final List<HandlesPickImageIntent> imageHandlers =
+              ClarifaiUtil.childrenOfType(root, HandlesPickImageIntent.class);
+          for (HandlesPickImageIntent imageHandler : imageHandlers) {
+            imageHandler.onImagePicked(imageBytes);
+          }
+        }
+        break;
     }
   }
 
@@ -133,10 +143,7 @@ public abstract class BaseActivity extends AppCompatActivity {
   protected abstract int layoutRes();
 
   @Nullable
-  protected final byte[] retrieveSelectedImage(int requestCode, int resultCode, Intent data) {
-    if (resultCode != RESULT_OK || requestCode != PICK_IMAGE) {
-      return null;
-    }
+  protected final byte[] retrieveSelectedImage(Intent data) {
     InputStream inStream = null;
     Bitmap bitmap = null;
     try {
