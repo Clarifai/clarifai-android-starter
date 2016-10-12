@@ -1,7 +1,14 @@
 <resources>
-    <string name="app_name">Clarifai v2 API Starter</string>
-    <string name="error_while_contacting_api">Error while contacting Clarifai API</string>
-    <string name="upload_image_hint">Click the button in the bottom-right corner to upload an image!</string>
     <string name="clarifai_id">TODO</string>
     <string name="clarifai_secret">TODO</string>
+
+    <string name="app_name">Clarifai v2 API Starter</string>
+
+    <string name="error_external_storage_permission_not_granted">You must accept this permission so we can upload your images!</string>
+    
+    <string name="error_while_contacting_api">Error while contacting Clarifai API</string>
+    <string name="no_results_from_api">API did not return any results</string>
+
+    <string name="upload_image_hint">Click the button in the bottom-right corner to upload an image!</string>
+
 </resources>
