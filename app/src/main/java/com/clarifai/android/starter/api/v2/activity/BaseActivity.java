@@ -1,20 +1,26 @@
 package com.clarifai.android.starter.api.v2.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewStub;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import com.clarifai.android.starter.api.v2.ClarifaiUtil;
 import com.clarifai.android.starter.api.v2.HandlesPickImageIntent;
 import com.clarifai.android.starter.api.v2.R;
@@ -23,6 +29,8 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.tbruyelle.rxpermissions.RxPermissions;
+import rx.functions.Action1;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -30,10 +38,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -49,6 +53,26 @@ public abstract class BaseActivity extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+      RxPermissions.getInstance(this)
+          .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+          .subscribe(new Action1<Boolean>() {
+            @Override public void call(Boolean granted) {
+              if (!granted) {
+                new AlertDialog.Builder(BaseActivity.this)
+                    .setCancelable(false)
+                    .setMessage(R.string.error_external_storage_permission_not_granted)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                      @Override public void onClick(DialogInterface dialog, int which) {
+                        moveTaskToBack(true);
+                        finish();
+                      }
+                    })
+                    .show();
+              }
+            }
+          });
+    }
 
     @SuppressLint("InflateParams") final View wrapper = getLayoutInflater().inflate(R.layout.activity_wrapper, null);
     final ViewStub stub = ButterKnife.findById(wrapper, R.id.content_stub);
@@ -86,9 +110,10 @@ public abstract class BaseActivity extends AppCompatActivity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    final byte[] imageBytes = retrieveSelectedImage(requestCode, resultCode, data);
     final List<HandlesPickImageIntent> imageHandlers = ClarifaiUtil.childrenOfType(root, HandlesPickImageIntent.class);
     for (HandlesPickImageIntent imageHandler : imageHandlers) {
-      imageHandler.onImagePicked(retrieveSelectedImage(requestCode, resultCode, data));
+      imageHandler.onImagePicked(imageBytes);
     }
   }
 
@@ -126,7 +151,8 @@ public abstract class BaseActivity extends AppCompatActivity {
       if (inStream != null) {
         try {
           inStream.close();
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
       }
       if (bitmap != null) {
         bitmap.recycle();
@@ -134,7 +160,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
   }
 
-  private Drawer.OnDrawerItemClickListener goToActivityListener(@NonNull final Class<? extends Activity> activityClass) {
+  private Drawer.OnDrawerItemClickListener goToActivityListener(
+      @NonNull final Class<? extends Activity> activityClass) {
     return new Drawer.OnDrawerItemClickListener() {
       @Override
       public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {

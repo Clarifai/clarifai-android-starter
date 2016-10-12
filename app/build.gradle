@@ -27,6 +27,7 @@ dependencies {
       deps.rxJava,
       deps.timber,
       "com.squareup.okhttp3:logging-interceptor:3.4.1",
+      "com.tbruyelle.rxpermissions:rxpermissions:0.7.1@aar",
   )
   compile(
       deps.materialDrawer
