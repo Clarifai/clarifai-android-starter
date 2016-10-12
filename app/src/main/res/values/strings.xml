@@ -5,7 +5,7 @@
     <string name="app_name">Clarifai v2 API Starter</string>
 
     <string name="error_external_storage_permission_not_granted">You must accept this permission so we can upload your images!</string>
-    
+
     <string name="error_while_contacting_api">Error while contacting Clarifai API</string>
     <string name="no_results_from_api">API did not return any results</string>
 
