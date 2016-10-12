@@ -69,10 +69,7 @@ public class RecognizeView<PREDICTION extends Prediction> extends CoordinatorLay
   }
 
   @Override
-  public void onImagePicked(@Nullable final byte[] imageBytes) {
-    if (imageBytes == null) {
-      throw new IllegalStateException("No image-bytes were provided");
-    }
+  public void onImagePicked(@NonNull final byte[] imageBytes) {
     final Model<PREDICTION> model = this.model;
     if (model == null) {
       throw new IllegalStateException("An image can't be picked before this view has a model set!");

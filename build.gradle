@@ -29,7 +29,7 @@ allprojects {
       butterknife: "8.4.0",
   ]
   ext.deps = [
-      clarifai: "com.clarifai.clarifai-api2:core:2.0.1",
+      clarifai: "com.clarifai.clarifai-api2:core:2.0.2",
 
       butterknife: "com.jakewharton:butterknife:$versions.butterknife",
       butterknifeCompiler: "com.jakewharton:butterknife-compiler:$versions.butterknife",
