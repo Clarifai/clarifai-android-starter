@@ -5,7 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import clarifai2.api.ClarifaiBuilder;
 import clarifai2.api.ClarifaiClient;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import timber.log.Timber;
+
+import java.util.concurrent.TimeUnit;
 
 public class App extends Application {
 
@@ -26,7 +30,20 @@ public class App extends Application {
   @Override
   public void onCreate() {
     INSTANCE = this;
-    client = new ClarifaiBuilder(getString(R.string.clarifai_id), getString(R.string.clarifai_secret)).buildSync();
+    client = new ClarifaiBuilder(getString(R.string.clarifai_id), getString(R.string.clarifai_secret))
+        // Optionally customize HTTP client via a custom OkHttp instance
+        .client(new OkHttpClient.Builder()
+            .readTimeout(30, TimeUnit.SECONDS) // Increase timeout for poor mobile networks
+
+            // Log all incoming and outgoing data
+            .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+              @Override public void log(String s) {
+                Timber.e(s);
+              }
+            }).setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
+        )
+        .buildSync();
     super.onCreate();
     Timber.plant(new Timber.DebugTree());
   }
