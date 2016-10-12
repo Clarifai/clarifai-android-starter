@@ -18,7 +18,7 @@ public final class ClarifaiUtil {
 
   @NonNull
   public static Activity unwrapActivity(@NonNull Context startFrom) {
-    while(startFrom instanceof ContextWrapper) {
+    while (startFrom instanceof ContextWrapper) {
       if (startFrom instanceof Activity) {
         return ((Activity) startFrom);
       }

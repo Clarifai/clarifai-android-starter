@@ -23,13 +23,16 @@ dependencies {
           "cardview-v7",
       ].collect { "com.android.support:$it:$versions.android.compatV7" },
       deps.clarifai,
+
       deps.butterknife,
+
       deps.rxJava,
+      deps.rxPermissions,
+
       deps.timber,
+      deps.okHttpLogging,
   )
-  compile(
-      deps.materialDrawer
-  ) { transitive = true }
+  compile(deps.materialDrawer) { transitive = true }
 
   apt(
       deps.butterknifeCompiler,

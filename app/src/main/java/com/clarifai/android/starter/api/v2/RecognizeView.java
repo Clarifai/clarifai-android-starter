@@ -71,7 +71,7 @@ public class RecognizeView<PREDICTION extends Prediction> extends CoordinatorLay
   @Override
   public void onImagePicked(@Nullable final byte[] imageBytes) {
     if (imageBytes == null) {
-      return;
+      throw new IllegalStateException("No image-bytes were provided");
     }
     final Model<PREDICTION> model = this.model;
     if (model == null) {
@@ -88,9 +88,9 @@ public class RecognizeView<PREDICTION extends Prediction> extends CoordinatorLay
         if (predictions.isSuccessful()) {
           return predictions.get();
         } else {
-          Timber.e(predictions.getStatus().toString());
+          Timber.e("API call to get predictions was not successful. Info: %s", predictions.getStatus().toString());
+          return null;
         }
-        return null;
       }
 
       @Override
@@ -99,8 +99,8 @@ public class RecognizeView<PREDICTION extends Prediction> extends CoordinatorLay
         if (predictions == null || predictions.isEmpty()) {
           Snackbar.make(
               findViewById(R.id.content_root),
-              R.string.error_while_contacting_api,
-              Snackbar.LENGTH_LONG
+              predictions == null ? R.string.error_while_contacting_api : R.string.no_results_from_api,
+              Snackbar.LENGTH_INDEFINITE
           ).show();
           return;
         }
