@@ -12,7 +12,7 @@ buildscript {
 
 allprojects {
   repositories {
-    mavenCentral()
+    jcenter()
   }
   ext.versions = [
       app: [
@@ -29,7 +29,7 @@ allprojects {
       butterknife: "8.4.0",
   ]
   ext.deps = [
-      clarifai: "com.clarifai.clarifai-api2:core:2.0.0",
+      clarifai: "com.clarifai.clarifai-api2:core:2.0.1",
       butterknife: "com.jakewharton:butterknife:$versions.butterknife",
       butterknifeCompiler: "com.jakewharton:butterknife-compiler:$versions.butterknife",
       materialDrawer: "com.mikepenz:materialdrawer:5.6.0@aar",
