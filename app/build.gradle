@@ -19,7 +19,7 @@ repositories {
 
 android {
   compileSdkVersion 24
-  buildToolsVersion "24.0.3"
+  buildToolsVersion "24.0.2"
   defaultConfig {
     applicationId "com.clarifai.android.starter.api.v2"
     minSdkVersion 15
