@@ -1,40 +1,55 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath(
+        "com.android.tools.build:gradle:2.2.0",
+        "com.neenbedankt.gradle.plugins:android-apt:1.8",
+    )
+  }
+}
+
 apply plugin: "com.android.application"
-apply plugin: "android-apt"
+apply plugin: "com.neenbedankt.android-apt"
+
+repositories {
+  jcenter()
+}
 
 android {
-  compileSdkVersion versions.android.compile
-  buildToolsVersion versions.android.buildTools
+  compileSdkVersion 24
+  buildToolsVersion "24.0.3"
   defaultConfig {
     applicationId "com.clarifai.android.starter.api.v2"
-    minSdkVersion versions.android.min
-    targetSdkVersion versions.android.target
-    versionCode versions.app.code
-    versionName versions.app.name
+    minSdkVersion 15
+    targetSdkVersion 24
+    versionCode 2
+    versionName "1.1"
   }
-  lintOptions { lintConfig rootProject.file('gradle/lint.xml') }
+  lintOptions { lintConfig rootProject.file('gradle/lint.xml') } // needed to suppress Okio's lint errors
 }
 
 dependencies {
   compile(
-      [
-          "appcompat-v7",
-          "recyclerview-v7",
-          "design",
-          "cardview-v7",
-      ].collect { "com.android.support:$it:$versions.android.compatV7" },
-      deps.clarifai,
+      "com.android.support:appcompat-v7:24.2.1",
+      "com.android.support:recyclerview-v7:24.2.1",
+      "com.android.support:design:24.2.1",
 
-      deps.butterknife,
+      "com.clarifai.clarifai-api2:core:2.0.2",
 
-      deps.rxJava,
-      deps.rxPermissions,
 
-      deps.timber,
-      deps.okHttpLogging,
+      // For logging our HTTP outbound + inbound data
+      "com.jakewharton.timber:timber:4.3.0",
+      "com.squareup.okhttp3:logging-interceptor:3.4.1",
+
+      // For runtime permissions on Marshmallow and above
+      "io.reactivex:rxjava:1.1.10",
+      "com.tbruyelle.rxpermissions:rxpermissions:0.7.1@aar",
   )
-  compile(deps.materialDrawer) { transitive = true }
+  compile("com.mikepenz:materialdrawer:5.6.0") { transitive = true }
 
-  apt(
-      deps.butterknifeCompiler,
-  )
+  // For getting views without clunky findViewById
+  compile "com.jakewharton:butterknife:8.4.0"
+  apt "com.jakewharton:butterknife-compiler:8.4.0"
 }
