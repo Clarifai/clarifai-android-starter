@@ -7,14 +7,14 @@
     >
 
     <TextView
-        android:id="@android:id/text1"
+        android:id="@+id/label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         />
 
     <TextView
-        android:id="@android:id/text2"
+        android:id="@+id/probability"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

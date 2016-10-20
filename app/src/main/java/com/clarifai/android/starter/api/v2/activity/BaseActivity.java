@@ -5,8 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -21,32 +19,25 @@ import android.view.ViewStub;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import com.clarifai.android.starter.api.v2.ClarifaiUtil;
-import com.clarifai.android.starter.api.v2.HandlesPickImageIntent;
 import com.clarifai.android.starter.api.v2.R;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import rx.functions.Action1;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A common class to set up boilerplate logic for
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
-  @BindView(R.id.content_root)
-  View root;
-
-  public static final int PICK_IMAGE = 100;
-
   private static final String INTENT_EXTRA_DRAWER_POSITION = "IntentExtraDrawerPosition";
+
+  @BindView(R.id.content_root) protected View root;
 
   private Unbinder unbinder;
 
@@ -107,65 +98,21 @@ public abstract class BaseActivity extends AppCompatActivity {
     super.onDestroy();
   }
 
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode != RESULT_OK) {
-      return;
-    }
-    switch (requestCode) {
-      case PICK_IMAGE:
-        final byte[] imageBytes = retrieveSelectedImage(data);
-        if (imageBytes != null) {
-          final List<HandlesPickImageIntent> imageHandlers =
-              ClarifaiUtil.childrenOfType(root, HandlesPickImageIntent.class);
-          for (HandlesPickImageIntent imageHandler : imageHandlers) {
-            imageHandler.onImagePicked(imageBytes);
-          }
-        }
-        break;
-    }
-  }
-
   @NonNull
   protected List<IDrawerItem> drawerItems() {
     return Arrays.<IDrawerItem>asList(
         new PrimaryDrawerItem()
             .withName(R.string.drawer_item_recognize_tags)
-            .withOnDrawerItemClickListener(goToActivityListener(RecognizeConceptsActivity.class)),
-        new SecondaryDrawerItem()
-            .withName(R.string.drawer_item_recognize_colors)
-            .withOnDrawerItemClickListener(goToActivityListener(RecognizeColorsActivity.class))
+            .withOnDrawerItemClickListener(goToActivityListener(RecognizeConceptsActivity.class))
     );
   }
 
+  /**
+   * @return the layout file to use. This is used in place of {@code R.id.content_stub} in the activity_wrapper.xml
+   * file, by using a {@link ViewStub}.
+   */
   @LayoutRes
   protected abstract int layoutRes();
-
-  @Nullable
-  protected final byte[] retrieveSelectedImage(Intent data) {
-    InputStream inStream = null;
-    Bitmap bitmap = null;
-    try {
-      inStream = getContentResolver().openInputStream(data.getData());
-      bitmap = BitmapFactory.decodeStream(inStream);
-      final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-      return outStream.toByteArray();
-    } catch (FileNotFoundException e) {
-      return null;
-    } finally {
-      if (inStream != null) {
-        try {
-          inStream.close();
-        } catch (IOException ignored) {
-        }
-      }
-      if (bitmap != null) {
-        bitmap.recycle();
-      }
-    }
-  }
 
   private Drawer.OnDrawerItemClickListener goToActivityListener(
       @NonNull final Class<? extends Activity> activityClass) {
@@ -173,12 +120,9 @@ public abstract class BaseActivity extends AppCompatActivity {
       @Override
       public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         // Don't open a new activity if we're already in the activity the user clicked on
-        if (BaseActivity.this.getClass().equals(activityClass)) {
-          return true;
+        if (!drawerItem.isSelected()) {
+          startActivity(new Intent(BaseActivity.this, activityClass).putExtra(INTENT_EXTRA_DRAWER_POSITION, position));
         }
-        startActivity(new Intent(BaseActivity.this, activityClass)
-            .putExtra(INTENT_EXTRA_DRAWER_POSITION, position)
-        );
         return true;
       }
     };

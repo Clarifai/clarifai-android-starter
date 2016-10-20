@@ -1,7 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.clarifai.android.starter.api.v2.RecognizeView
-    android:id="@+id/recognize_view"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+  >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/resultsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
     />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    >
+
+      <ViewSwitcher
+          android:id="@+id/switcher"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+      >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/upload_image_hint"
+        />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+        />
+
+      </ViewSwitcher>
+
+      <ImageView
+          android:id="@+id/image"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="?android:windowBackground"
+      />
+
+    </FrameLayout>
+  </LinearLayout>
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="64dp"
+      android:layout_height="64dp"
+      android:layout_gravity="end|bottom"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:layout_marginRight="16dp"
+      android:src="@android:drawable/ic_menu_upload"
+  />
+
+</FrameLayout>
