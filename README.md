@@ -6,7 +6,12 @@ This is a simple project showing how to use the Clarifai API in Android. It uses
 
 ## Building and Running
 
+To set your environment up for Android development, you'll need to install the
+[Java SE Development Kit (JDK)](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+and [Android Studio](https://developer.android.com/studio/index.html).
+
 This project will compile in the standard manner through Android Studio or `./gradlew clean build` in your terminal. You just need to provide `clarifai_id` and `clarifai_secret` string resources
+where it says `TODO` in [`strings.xml`](app/src/main/res/values/strings.xml).
 
 ## Where to look
 
