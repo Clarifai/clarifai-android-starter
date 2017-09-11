@@ -33,7 +33,7 @@ public class App extends Application {
   @Override
   public void onCreate() {
     INSTANCE = this;
-    client = new ClarifaiBuilder(getString(R.string.clarifai_id), getString(R.string.clarifai_secret))
+    client = new ClarifaiBuilder(getString(R.string.clarifai_api_key))
         // Optionally customize HTTP client via a custom OkHttp instance
         .client(new OkHttpClient.Builder()
             .readTimeout(30, TimeUnit.SECONDS) // Increase timeout for poor mobile networks

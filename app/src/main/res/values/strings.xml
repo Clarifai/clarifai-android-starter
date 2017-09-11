@@ -1,6 +1,5 @@
 <resources>
-    <string name="clarifai_id">TODO</string>
-    <string name="clarifai_secret">TODO</string>
+    <string name="clarifai_api_key">{YOUR API KEY}</string>
 
     <string name="app_name">Clarifai v2 API Starter</string>
 
