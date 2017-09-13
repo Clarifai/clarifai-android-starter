@@ -4,7 +4,7 @@ buildscript {
   }
   dependencies {
     classpath(
-        "com.android.tools.build:gradle:2.2.0",
+            'com.android.tools.build:gradle:2.3.3',
         "com.neenbedankt.gradle.plugins:android-apt:1.8",
     )
   }
@@ -19,7 +19,7 @@ repositories {
 
 android {
   compileSdkVersion 24
-  buildToolsVersion "24.0.2"
+  buildToolsVersion '25.0.0'
   defaultConfig {
     applicationId "com.clarifai.android.starter.api.v2"
     minSdkVersion 15
@@ -36,7 +36,7 @@ dependencies {
       "com.android.support:recyclerview-v7:24.2.1",
       "com.android.support:design:24.2.1",
 
-      "com.clarifai.clarifai-api2:core:2.0.2",
+      "com.clarifai.clarifai-api2:core:2.2.+",
 
 
       // For logging our HTTP outbound + inbound data
